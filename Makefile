@@ -2,13 +2,14 @@ OPUS_OPTS = --disable-asm --disable-intrinsics --enable-shared=no
 OPUS_CC = emcc
 OPUS_BUILD_DIR = build
 
-WASM_CC = emcc
-WASM_CFLAGS = -Iopus/include
+CC = emcc
+OBJS = opus.o
+CFLAGS = -Iopus/include
 
 all: opus.js
 
-opus.js: $(OPUS_BUILD_DIR)/.libs/libopus.a
-	$(WASM_CC) $(WASM_CFLAGS) \
+opus.js: $(OBJS) $(OPUS_BUILD_DIR)/.libs/libopus.a
+	$(CC) \
 	-O3 \
 	-s WASM=1 \
 	-s MODULARIZE=1 \
@@ -16,7 +17,7 @@ opus.js: $(OPUS_BUILD_DIR)/.libs/libopus.a
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s EXTRA_EXPORTED_RUNTIME_METHODS=['ccall'] \
 	-o opus.js \
-	$<
+	$^
 
 $(OPUS_BUILD_DIR)/.libs/libopus.a: $(OPUS_BUILD_DIR)/Makefile
 	-make -C $(OPUS_BUILD_DIR) CC=$(OPUS_CC)

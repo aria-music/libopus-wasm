@@ -1,3 +1,4 @@
 /build
 /opus.js
 /opus.wasm
+/opus.o
