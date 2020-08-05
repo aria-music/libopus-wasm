@@ -13,7 +13,8 @@ opus.js: $(OBJS) $(OPUS_BUILD_DIR)/.libs/libopus.a
 	-O3 \
 	-s WASM=1 \
 	-s MODULARIZE=1 \
-	-s EXPORT_ES6=0 \
+	-s EXPORT_ES6=1 \
+	-s USE_ES6_IMPORT_META=0 \
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s EXTRA_EXPORTED_RUNTIME_METHODS=['ccall'] \
 	-o opus.js \
@@ -35,5 +36,4 @@ opus/configure: opus/autogen.sh
 
 .PHONY: clean
 clean:
-	rm -rf build
 	rm -f opus.js opus.wasm
